@@ -3,10 +3,12 @@
 #include <string>
 using namespace std;
 
+// Contact class to represent each contact's details
 class Contact {
 public:
     string firstName, lastName, address, city, state, zip, phoneNumber, email;
 
+    // Constructor to initialize a new contact
     Contact(string fn, string ln, string addr, string cty, string st, string zp, string phone, string em) {
         this -> firstName = fn;
         this -> lastName = ln;
@@ -15,10 +17,11 @@ public:
         this -> state = st;
         this -> zip = zp;
         this -> phoneNumber = phone;
-        this -> email = em;
+        this ->email = em;
     }
 
-    void display() {
+    // Method to display the contact details
+    void display() const {
         cout << "Name: " << firstName << " " << lastName << "\n"
              << "Address: " << address << ", " << city << ", " << state << " - " << zip << "\n"
              << "Phone: " << phoneNumber << "\n"
@@ -26,10 +29,35 @@ public:
     }
 };
 
+class AddressBook {
+private:
+    vector<Contact> contacts;  // List of contacts
+
+public:
+    // Method to add a new contact
+    void addContact(const Contact& contact) {
+        contacts.push_back(contact);
+        cout << "Contact added successfully!\n";
+    }
+
+    // Method to display all contacts in the address book
+    void displayContacts() const {
+        if (contacts.empty()) {
+            cout << "No contacts available.\n";
+            return;
+        }
+        for (int  i = 0; i < contacts.size(); ++i) {
+            cout << "\nContact " << i + 1 << ":\n";
+            contacts[i].display();
+        }
+    }
+};
+
 int main() {
-    vector<Contact> contacts;
+    AddressBook addressBook;
 
     string firstName, lastName, address, city, state, zip, phoneNumber, email;
+
     cout << "Enter First Name: ";
     cin >> firstName;
     cout << "Enter Last Name: ";
@@ -38,7 +66,7 @@ int main() {
     cin >> address;
     cout << "Enter City: ";
     cin >> city;
-     cout << "Enter State: ";
+    cout << "Enter State: ";
     cin >> state;
     cout << "Enter Zip Code: ";
     cin >> zip;
@@ -47,11 +75,11 @@ int main() {
     cout << "Enter Email: ";
     cin >> email;
 
-    // Create a Contact object and add it to the vector
-    contacts.push_back(Contact(firstName, lastName, address, city, state, zip, phoneNumber, email));
+    Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
+    addressBook.addContact(newContact);
 
-    cout << "Displaying Contact:\n";
-    contacts[0].display();
+    // Displaying the contact
+    addressBook.displayContacts();
 
     return 0;
 }
