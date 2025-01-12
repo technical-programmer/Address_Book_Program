@@ -3,11 +3,12 @@
 #include <string>
 using namespace std;
 
+// Contact class to represent each contact's details
 class Contact {
 public:
     string firstName, lastName, address, city, state, zip, phoneNumber, email;
 
-
+    // Constructor to initialize a new contact
     Contact(string fn, string ln, string addr, string cty, string st, string zp, string phone, string em) {
         this -> firstName = fn;
         this -> lastName = ln;
@@ -19,27 +20,17 @@ public:
         this ->email = em;
     }
 
+    // Method to display the contact details
     void display() const {
         cout << "Name: " << firstName << " " << lastName << "\n"
              << "Address: " << address << ", " << city << ", " << state << " - " << zip << "\n"
              << "Phone: " << phoneNumber << "\n"
              << "Email: " << email << "\n";
     }
-
-    // Method to edit the contact details
-    void editContact(const string& addr, const string& cty, const string& st, const string& zp, 
-                     const string& phone, const string& em) {
-        address = addr;
-        city = cty;
-        state = st;
-        zip = zp;
-        phoneNumber = phone;
-        email = em;
-    }
 };
 
 class AddressBook {
-
+private:
     vector<Contact> contacts;  // List of contacts
 
 public:
@@ -55,39 +46,10 @@ public:
             cout << "No contacts available.\n";
             return;
         }
-        for (int i = 0; i < contacts.size(); ++i) {
+        for (int  i = 0; i < contacts.size(); ++i) {
             cout << "\nContact " << i + 1 << ":\n";
             contacts[i].display();
         }
-    }
-
-    // Method to edit a contact by their first or last name
-    void editContactByName(const string& name) {
-        for (int i = 0; i < contacts.size(); ++i) {
-            if (contacts[i].firstName == name || contacts[i].lastName == name) {
-                cout << "Editing Contact: " << name << "\n";
-                string address, city, state, zip, phone, email;
-                
-                cout << "Enter new Address: ";
-                cin >>  address;
-                cout << "Enter new City: ";
-                cin >>  city;
-                cout << "Enter new State: ";
-                cin >>  state;
-                cout << "Enter new Zip Code: ";
-                cin >>  zip;
-                cout << "Enter new Phone Number: ";
-                cin >>  phone;
-                cout << "Enter new Email: ";
-                cin >>  email;
-
-                // Edit the contact with new details
-                contacts[i].editContact(address, city, state, zip, phone, email);
-                cout << "Contact updated successfully!\n";
-                return;
-            }
-        }
-        cout << "No contact found with the name: " << name << "\n";
     }
 };
 
@@ -116,14 +78,7 @@ int main() {
     Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
     addressBook.addContact(newContact);
 
-
-    addressBook.displayContacts();
-
-    string nameToEdit;
-    cout << "\nEnter the first or last name of the contact to edit: ";
-    cin >> nameToEdit;
-    addressBook.editContactByName(nameToEdit);
-
+    // Displaying the contact
     addressBook.displayContacts();
 
     return 0;
