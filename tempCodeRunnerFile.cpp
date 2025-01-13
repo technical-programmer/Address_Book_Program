@@ -100,7 +100,6 @@ int main() {
 
     string firstName, lastName, address, city, state, zip, phoneNumber, email;
 
-    // Input for new contact
     cout << "Enter First Name: ";
     cin >> firstName;
     cout << "Enter Last Name: ";
@@ -121,7 +120,6 @@ int main() {
     Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
     addressBook.addContact(newContact);
 
-    
     addressBook.displayContacts();
 
     string nameToEdit;
@@ -129,16 +127,13 @@ int main() {
     cin >> nameToEdit;
     addressBook.editContactByName(nameToEdit);
 
-    
     addressBook.displayContacts();
 
-    // name to delete contact
     string nameToDelete;
-    cout << "Enter the first or last name of the contact to delete ";
+    cout << "\nEnter the first or last name of the contact to delete: ";
     cin >> nameToDelete;
     addressBook.deleteContactByName(nameToDelete);
 
-    // Display all contacts after deletion
     addressBook.displayContacts();
 
     return 0;
