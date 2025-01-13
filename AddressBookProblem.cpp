@@ -99,29 +99,36 @@ int main() {
     AddressBook addressBook;
 
     string firstName, lastName, address, city, state, zip, phoneNumber, email;
+    char addMoreContacts = 'y';
 
-    // Input for new contact
-    cout << "Enter First Name: ";
-    cin >> firstName;
-    cout << "Enter Last Name: ";
-    cin >> lastName;
-    cout << "Enter Address: ";
-    cin >> address;
-    cout << "Enter City: ";
-    cin >> city;
-    cout << "Enter State: ";
-    cin >> state;
-    cout << "Enter Zip Code: ";
-    cin >> zip;
-    cout << "Enter Phone Number: ";
-    cin >> phoneNumber;
-    cout << "Enter Email: ";
-    cin >> email;
+    // Loop to add multiple contacts
+    while (addMoreContacts == 'y' || addMoreContacts == 'Y') {
+       
+        cout << "Enter First Name: ";
+        cin >> firstName;
+        cout << "Enter Last Name: ";
+        cin >> lastName;
+        cout << "Enter Address: ";
+        cin >> address;
+        cout << "Enter City: ";
+        cin >> city;
+        cout << "Enter State: ";
+        cin >> state;
+        cout << "Enter Zip Code: ";
+        cin >> zip;
+        cout << "Enter Phone Number: ";
+        cin >> phoneNumber;
+        cout << "Enter Email: ";
+        cin >> email;
 
-    Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
-    addressBook.addContact(newContact);
+        Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
+        addressBook.addContact(newContact);
 
     
+        cout << "\nDo you want to add another contact? (y/n): ";
+        cin >> addMoreContacts;
+    }
+
     addressBook.displayContacts();
 
     string nameToEdit;
@@ -129,16 +136,15 @@ int main() {
     cin >> nameToEdit;
     addressBook.editContactByName(nameToEdit);
 
-    
     addressBook.displayContacts();
 
-    // name to delete contact
+
     string nameToDelete;
-    cout << "Enter the first or last name of the contact to delete ";
+    cout << "Enter the first or last name of the contact to delete: ";
     cin >> nameToDelete;
     addressBook.deleteContactByName(nameToDelete);
 
-    // Display all contacts after deletion
+
     addressBook.displayContacts();
 
     return 0;
