@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 using namespace std;
 
 class Contact {
@@ -17,14 +18,14 @@ public:
         this->phoneNumber = phone;
         this->email = em;
     }
-
+    // for displaying the contact
     void display() const {
         cout << "Name: " << firstName << " " << lastName << "\n"
              << "Address: " << address << ", " << city << ", " << state << " - " << zip << "\n"
              << "Phone: " << phoneNumber << "\n"
              << "Email: " << email << "\n";
     }
-
+      // for editing the contacts 
     void editContact(const string& addr, const string& cty, const string& st, const string& zp, 
                      const string& phone, const string& em) {
         address = addr;
@@ -37,7 +38,7 @@ public:
 };
 
 class AddressBook {
-    vector<Contact> contacts;
+    vector<Contact> contacts;    // for storing the list of contacts
 
 public:
     void addContact(const Contact& contact) {
@@ -96,56 +97,94 @@ public:
 };
 
 int main() {
-    AddressBook addressBook;
+    map<string, AddressBook> addressBooks;
+    string bookName;
 
-    string firstName, lastName, address, city, state, zip, phoneNumber, email;
-    char addMoreContacts = 'y';
+    while (true) {
+        cout << "\nAddress Book System Menu:\n";
+        cout << "1. Add a new Address Book\n";
+        cout << "2. Manage an existing Address Book\n";
+        cout << "3. Exit\n";
+        cout << "Choose an option: ";
+        int choice;
+        cin >> choice;
 
-    // Loop to add multiple contacts
-    while (addMoreContacts == 'y' || addMoreContacts == 'Y') {
-       
-        cout << "Enter First Name: ";
-        cin >> firstName;
-        cout << "Enter Last Name: ";
-        cin >> lastName;
-        cout << "Enter Address: ";
-        cin >> address;
-        cout << "Enter City: ";
-        cin >> city;
-        cout << "Enter State: ";
-        cin >> state;
-        cout << "Enter Zip Code: ";
-        cin >> zip;
-        cout << "Enter Phone Number: ";
-        cin >> phoneNumber;
-        cout << "Enter Email: ";
-        cin >> email;
+        if (choice == 1) {
+            cout << "Enter the name of the new Address Book: ";
+            cin >> bookName;
+            if (addressBooks.find(bookName) == addressBooks.end()) {
+                addressBooks[bookName] = AddressBook();
+                cout << "Address Book \"" << bookName << "\" created successfully!\n";
+            } else {
+                cout << "Address Book \"" << bookName << "\" already exists!\n";
+            }
+        } else if (choice == 2) {
+            cout << "Enter the name of the Address Book to manage: ";
+            cin >> bookName;
+            if (addressBooks.find(bookName) == addressBooks.end()) {
+                cout << "Address Book \"" << bookName << "\" does not exist!\n";
+                continue;
+            }
 
-        Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
-        addressBook.addContact(newContact);
+            AddressBook& selectedBook = addressBooks[bookName];
+            while (true) {
+                cout << "\nManage Address Book: \"" << bookName << "\"\n";
+                cout << "1. Add Contact\n";
+                cout << "2. Display Contacts\n";
+                cout << "3. Edit Contact\n";
+                cout << "4. Delete Contact\n";
+                cout << "5. Back to Main Menu\n";
+                cout << "Choose an option: ";
+                int subChoice;
+                cin >> subChoice;
 
-    
-        cout << "\nDo you want to add another contact? (y/n): ";
-        cin >> addMoreContacts;
+                if (subChoice == 1) {
+                    string firstName, lastName, address, city, state, zip, phoneNumber, email;
+                    cout << "Enter First Name: ";
+                    cin >> firstName;
+                    cout << "Enter Last Name: ";
+                    cin >> lastName;
+                    cout << "Enter Address: ";
+                    cin >> address;
+                    cout << "Enter City: ";
+                    cin >> city;
+                    cout << "Enter State: ";
+                    cin >> state;
+                    cout << "Enter Zip Code: ";
+                    cin >> zip;
+                    cout << "Enter Phone Number: ";
+                    cin >> phoneNumber;
+                    cout << "Enter Email: ";
+                    cin >> email;
+
+                    Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email);
+                    selectedBook.addContact(newContact);
+
+                } else if (subChoice == 2) {
+                    selectedBook.displayContacts();
+                } else if (subChoice == 3) {
+                    string nameToEdit;
+                    cout << "Enter the first or last name of the contact to edit: ";
+                    cin >> nameToEdit;
+                    selectedBook.editContactByName(nameToEdit);
+                } else if (subChoice == 4) {
+                    string nameToDelete;
+                    cout << "Enter the first or last name of the contact to delete: ";
+                    cin >> nameToDelete;
+                    selectedBook.deleteContactByName(nameToDelete);
+                } else if (subChoice == 5) {
+                    break;
+                } else {
+                    cout << "Invalid option!\n";
+                }
+            }
+        } else if (choice == 3) {
+            cout << "Exiting Address Book System. Goodbye!\n";
+            break;
+        } else {
+            cout << "Invalid option!\n";
+        }
     }
-
-    addressBook.displayContacts();
-
-    string nameToEdit;
-    cout << "\nEnter the first or last name of the contact to edit: ";
-    cin >> nameToEdit;
-    addressBook.editContactByName(nameToEdit);
-
-    addressBook.displayContacts();
-
-
-    string nameToDelete;
-    cout << "Enter the first or last name of the contact to delete: ";
-    cin >> nameToDelete;
-    addressBook.deleteContactByName(nameToDelete);
-
-
-    addressBook.displayContacts();
 
     return 0;
 }
